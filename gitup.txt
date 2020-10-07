@@ -1,0 +1,45 @@
+from selenium import webdriver
+from time import sleep
+from selenium.webdriver.common.keys import Keys
+
+driver = webdriver.Chrome(executable_path='pathofyourechromedriver')
+driver.get("https://10fastfingers.com/login")
+sleep(15)
+oldvar = []
+counter2 = 0
+
+email = 'youreaccountemail'
+password = 'youreaccountpassword'
+driver.find_element_by_xpath("//*[@id=\"UserEmail\"]") \
+    .send_keys(email)
+driver.find_element_by_xpath("//*[@id=\"UserPassword\"]") \
+    .send_keys(password)
+sleep(1)
+driver.find_element_by_xpath("//*[@id=\"login-form-submit\"]") \
+    .send_keys(Keys.ENTER)
+sleep(1)
+for x in range(9):
+    counter2 += 1
+    counter = 0
+    text = driver.find_element_by_xpath("//*[@id=\"words\"]")
+    var = text.text.split()
+    i = 0
+
+    while var[i] in oldvar:
+        del var[i]
+
+    sleep(1)
+
+    for y in range(len(var)):
+        if counter2 < 3:
+            driver.find_element_by_xpath("//*[@id=\"inputfield\"]") \
+                .send_keys(var[y])
+            driver.find_element_by_xpath("//*[@id=\"inputfield\"]") \
+                .send_keys(" ")
+        else:
+            driver.find_element_by_xpath("//*[@id=\"inputfield\"]") \
+                .send_keys(var[y])
+            driver.find_element_by_xpath("//*[@id=\"inputfield\"]") \
+                .send_keys(" ")
+
+    oldvar = var
